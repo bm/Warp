@@ -1,0 +1,7 @@
+name: Warp
+version: '${project.version}'
+main: com.gmail.brysonm26.warp.Warp
+api-version: 1.19
+commands:
+  go:
+    description: Warp command
