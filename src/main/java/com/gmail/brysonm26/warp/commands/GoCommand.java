@@ -30,7 +30,7 @@ public class GoCommand implements CommandExecutor {
                         warpSet.addAll(instance.getWarps(uuid).keySet());
                     }
                     player.sendMessage(ChatColor.GRAY + "Warps (" + warpSet.size() + "):");
-                    player.sendMessage(ChatColor.GRAY + String.join(", ", warpSet));
+                    player.sendMessage(ChatColor.GRAY + "" + ChatColor.ITALIC + String.join(ChatColor.RESET + "" + ChatColor.GRAY + ", " + ChatColor.ITALIC, warpSet));
                 } else if (args[0].equalsIgnoreCase("help")) {
                     // HELP subcommand
                     player.sendMessage(ChatColor.RED + "/go <warp> - TP to a specific warp");
@@ -41,12 +41,12 @@ public class GoCommand implements CommandExecutor {
                     // TP
                     String warpName = args[0];
                     if (!instance.getWarps().containsKey(uuid) || !instance.getWarps().get(uuid).containsKey(warpName)) {
-                        player.sendMessage(ChatColor.RED + "Warp " + warpName + " does not exist.");
+                        player.sendMessage(ChatColor.RED + "Warp " + ChatColor.ITALIC + warpName + ChatColor.RESET + ChatColor.RED + " does not exist.");
                         return false;
                     }
                     Location loc = instance.getWarps().get(uuid).get(warpName);
                     player.teleport(loc);
-                    player.sendMessage(ChatColor.GRAY + "Teleported to warp " + warpName);
+                    player.sendMessage(ChatColor.GRAY + "Teleported to warp " + ChatColor.ITALIC + warpName);
                 }
             } else if (args.length == 2) {
                 if (args[0].equalsIgnoreCase("set")) {
@@ -56,17 +56,21 @@ public class GoCommand implements CommandExecutor {
                         player.sendMessage(ChatColor.RED + "Use alphanumeric characters only to name your warps!");
                         return false;
                     }
+                    if (instance.hasWarp(uuid, warpName)) {
+                        player.sendMessage(ChatColor.GRAY + "Updated warp " + ChatColor.ITALIC + warpName);
+                    } else {
+                        player.sendMessage(ChatColor.GRAY + "Set warp " + ChatColor.ITALIC + warpName);
+                    }
                     instance.setWarp(uuid, warpName, player.getLocation());
-                    player.sendMessage(ChatColor.GRAY + "Set warp " + warpName);
                 } else if (args[0].equalsIgnoreCase("del")) {
                     // DEL subcommand
                     String warpName = args[1];
                     if (!instance.getWarps().get(uuid).containsKey(warpName)) {
-                        player.sendMessage(ChatColor.RED + "Warp " + warpName + " does not exist.");
+                        player.sendMessage(ChatColor.RED + "Warp " + ChatColor.ITALIC + warpName + ChatColor.RESET + ChatColor.RED + " does not exist.");
                         return false;
                     }
                     instance.deleteWarp(uuid, warpName);
-                    player.sendMessage(ChatColor.GRAY + "Deleted warp " + warpName);
+                    player.sendMessage(ChatColor.GRAY + "Deleted warp " + ChatColor.ITALIC + warpName);
                 }
             } else {
                 player.sendMessage(ChatColor.RED + "/go <warp> - TP to a specific warp");
